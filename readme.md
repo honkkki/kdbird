@@ -12,7 +12,8 @@ KDBIRD_APIKEY=
 
 ### 使用
 ```
-
+  $kdbird = new KdBird();
+  return $kdbird->getOrderTraces('要查询的快递公司','运单号');
 ```
 ```
 返回数据为:

@@ -1,16 +1,16 @@
-##快递鸟即时查询
-###安装
+## 快递鸟即时查询
+### 安装
 ```
 composer require 
 ```
-###配置
+### 配置
 在.env文件中添加
 ```
 KDNIAO_EBUSSINESSID=
 KDNIAO_APPKEY=
 ```
 
-###使用
+### 使用
 ```
 return Kdniao::getOrderTraces('HHTT','580334019453');
 ```

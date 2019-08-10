@@ -1,7 +1,7 @@
 ## 快递鸟即时查询
 ### 安装
 ```
-composer require 
+composer require honki/kdbird
 ```
 ### 配置
 在.env文件中添加

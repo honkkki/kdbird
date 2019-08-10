@@ -1,0 +1,17 @@
+{
+    "name": "honki/kdbird",
+    "description": "kdbird service api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "honki",
+            "email": "276086064@qq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Honki\\KdBird\\":"src/"
+        }
+    }
+}

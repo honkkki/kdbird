@@ -5,15 +5,17 @@ composer require
 ```
 ### 配置
 在.env文件中添加
+
+个人用户每天可进行3000次即时查询
 ```
-KDBIRD_USERID=
-KDBIRD_APIKEY=
+KDBIRD_USERID=                //对应用户ID
+KDBIRD_APIKEY=                //对应API key
 ```
 
-### 使用
+### 如何使用
 ```
   $kdbird = new KdBird();
-  return $kdbird->getOrderTraces('要查询的快递公司','运单号');
+  return $kdbird->getOrderTraces('快递公司编码','运单号');
 ```
 ```
 返回数据为:

@@ -6,21 +6,21 @@ composer require
 ### 配置
 在.env文件中添加
 ```
-KDNIAO_EBUSSINESSID=
-KDNIAO_APPKEY=
+KDBIRD_USERID=
+KDBIRD_APIKEY=
 ```
 
 ### 使用
 ```
-return Kdniao::getOrderTraces('HHTT','580334019453');
+
 ```
 ```
 返回数据为:
 {
-"EBusinessID": "1272627",
-"ShipperCode": "HHTT",
+"EBusinessID": "",
+"ShipperCode": "",
 "Success": true,
-"LogisticCode": "580334019453",
+"LogisticCode": "",
 "State": "3",
 "Traces": [
     //快递物流信息

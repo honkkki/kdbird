@@ -15,8 +15,12 @@ KDBIRD_APIKEY=                //对应API key
 
 ### 如何使用
 ##### 直接单号获取物流信息
-
-
+```
+    use Honki\KdBird\Logistics;
+    
+    $logis = new Logistics();
+    $res = $logis->getLogistics('单号');
+```
 
 ##### 物流轨迹即时查询
 ```

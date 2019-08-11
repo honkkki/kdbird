@@ -19,7 +19,7 @@ KDBIRD_APIKEY=                //对应API key
     use Honki\KdBird\Logistics;
     
     $logis = new Logistics();
-    $res = $logis->getLogistics('单号');
+    return $logis->getLogistics('单号');
 ```
 
 ##### 物流轨迹即时查询

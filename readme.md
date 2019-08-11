@@ -14,6 +14,7 @@ KDBIRD_APIKEY=                //对应API key
 ```
 
 ### 如何使用
+##### 物流轨迹即时查询
 ```
   $kdbird = new KdBird();
   return $kdbird->getOrderTraces('快递公司编码','运单号');
@@ -29,5 +30,23 @@ KDBIRD_APIKEY=                //对应API key
 "Traces": [
     //快递物流信息
 ]
+}
+```
+##### 通过单号查询物流公司
+```
+  $kdbird = new KdBird();
+  return $kdbird->getName('运单号');
+```
+```
+返回数据为:
+{
+"LogisticCode" : "",
+"Shippers" : [ {
+"ShipperName" : "圆通速递",
+"ShipperCode" : "YTO"
+} ],
+"EBusinessID" : "",
+"Code" : "",
+"Success" : true
 }
 ```

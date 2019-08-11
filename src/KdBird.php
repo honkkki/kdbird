@@ -27,7 +27,6 @@ class KdBird
      */
     public function getOrderTracesByJson($requestData)
     {
-
         if (!$this->is_not_json($requestData))
         {
             return '$requestData,必须是json类型';
@@ -45,6 +44,42 @@ class KdBird
 
         return $result;
     }
+
+
+    /**
+     * @param $requestData
+     * @return string
+     */
+    public function getNameByJson($requestData){
+        if (!$this->is_not_json($requestData))
+        {
+            return '$requestData,必须是json类型';
+        }
+
+        $datas = array(
+            'EBusinessID' => $this->userid,
+            'RequestType' => '2002',
+            'RequestData' => urlencode($requestData) ,
+            'DataType' => '2',
+        );
+        $datas['DataSign'] = $this->encrypt($requestData);
+        $result=$this->sendTracesPost($datas);
+
+        return $result;
+    }
+
+
+    /**
+     * 参数为需要的快递单号
+     * @param $LogisticCode
+     * @return string
+     */
+    public function getName($LogisticCode)
+    {
+        $json="{'LogisticCode':"."'".$LogisticCode."'}";
+        return $this->getNameByJson($json);
+    }
+
 
     /**
      * @param $shipperCode,快递公司编码

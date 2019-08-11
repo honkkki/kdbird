@@ -16,6 +16,8 @@ KDBIRD_APIKEY=                //对应API key
 ### 如何使用
 ##### 物流轨迹即时查询
 ```
+  use Honki\KdBird\KdBird;
+
   $kdbird = new KdBird();
   return $kdbird->getOrderTraces('快递公司编码','运单号');
 ```

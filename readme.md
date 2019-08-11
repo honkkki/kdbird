@@ -1,4 +1,5 @@
 ## 快递鸟即时查询
+
 ### 安装
 ```
 composer require honki/kdbird
@@ -6,7 +7,7 @@ composer require honki/kdbird
 ### 配置
 在.env文件中添加
 
-个人用户每天可进行3000次即时查询
+
 ```
 KDBIRD_USERID=                //对应用户ID
 KDBIRD_APIKEY=                //对应API key

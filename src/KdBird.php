@@ -92,6 +92,12 @@ class KdBird
         return $this->getOrderTracesByJson($json);
     }
 
+
+
+    //直接通过订单号获取
+
+
+
     /**
      * 判断时候为json类型
      * @param $str

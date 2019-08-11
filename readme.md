@@ -14,6 +14,10 @@ KDBIRD_APIKEY=                //对应API key
 ```
 
 ### 如何使用
+##### 直接单号获取物流信息
+
+
+
 ##### 物流轨迹即时查询
 ```
   use Honki\KdBird\KdBird;

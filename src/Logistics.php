@@ -17,8 +17,17 @@ class Logistics
         $name = $kdbird->getName($logistics_no);
         $arr = json_decode($name, true);
         $shipper = $arr['Shippers'];
+
         if ($shipper == []) {
             return [];
+        }
+
+        if (count($shipper) == 1) {
+            $result = $kdbird->getOrderTraces($shipper[0]['ShipperCode'], $logistics_no);
+            $res_json = json_decode($result, true);
+            if ($res_json['State'] == 0) {
+                return [];
+            }
         }
 
         foreach ($shipper as $v) {

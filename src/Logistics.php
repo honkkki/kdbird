@@ -17,11 +17,14 @@ class Logistics
         $name = $kdbird->getName($logistics_no);
         $arr = json_decode($name, true);
         $shipper = $arr['Shippers'];
+        if ($shipper == []) {
+            return [];
+        }
 
         foreach ($shipper as $v) {
             $result = $kdbird->getOrderTraces($v['ShipperCode'], $logistics_no);
             $res_json = json_decode($result, true);
-            //单号对应多个公司其中一个出错
+            //单号可能对应多个物流公司 存在空数据
             if ($res_json['State'] == 0) {
                 continue;
             }

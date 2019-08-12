@@ -5,7 +5,7 @@ namespace Honki\KdBird;
 class KdBird
 {
     /**
-     * @var 商户id 用户id
+     * @var 用户id
      */
     protected $userid;
 
@@ -70,7 +70,7 @@ class KdBird
 
 
     /**
-     * 参数为需要的快递单号
+     * 参数为快递单号
      * @param $LogisticCode
      * @return string
      */
@@ -94,12 +94,7 @@ class KdBird
 
 
 
-    //直接通过订单号获取
-
-
-
     /**
-     * 判断时候为json类型
      * @param $str
      * @return bool
      */
@@ -109,7 +104,7 @@ class KdBird
     }
 
     /**
-     * post提交既是查询的请求
+     * post提交
      * @param $datas
      * @return string,
      */
@@ -150,7 +145,7 @@ class KdBird
     /**
      * 电商sign签名
      * @param $data
-     * @return string, DataSign签名
+     * @return string
      */
     private function encrypt($data)
     {

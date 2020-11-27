@@ -1,4 +1,7 @@
 .idea/
 /src/test.php
+/vendor
+composer.lock
+
 
 

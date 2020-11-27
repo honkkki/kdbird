@@ -13,10 +13,8 @@ class KdBird
 
     public function __construct()
     {
-//        $this->userId = env('KDBIRD_USERID', '');
-//        $this->apiKey = env('KDBIRD_APIKEY', '');
-        $this->userId = '1564286';
-        $this->apiKey = 'e1b59974-e010-4a1e-846a-8073bd2333ea';
+        $this->userId = env('KDBIRD_USERID', '');
+        $this->apiKey = env('KDBIRD_APIKEY', '');
     }
 
 

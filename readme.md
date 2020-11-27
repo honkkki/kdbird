@@ -9,8 +9,8 @@ composer require honki/kdbird
 
 
 ```
-KDBIRD_USERID=                //对应用户ID
-KDBIRD_APIKEY=                //对应API key
+KDBIRD_USERID=                // 对应用户ID
+KDBIRD_APIKEY=                // 对应API key
 ```
 
 ### 如何使用
@@ -19,7 +19,7 @@ KDBIRD_APIKEY=                //对应API key
     use Honki\KdBird\Logistics;
     
     $logis = new Logistics();
-    return $logis->getLogistics('单号');
+    return $logis->getLogistics('物流单号');
 ```
 
 ##### 物流轨迹即时查询
@@ -38,7 +38,7 @@ KDBIRD_APIKEY=                //对应API key
 "LogisticCode": "",
 "State": "3",
 "Traces": [
-    //快递物流信息
+    // 快递物流信息
 ]
 }
 ```

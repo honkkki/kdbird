@@ -4,151 +4,103 @@ namespace Honki\KdBird;
 
 class KdBird
 {
-    /**
-     * @var 用户id
-     */
-    protected $userid;
+    // 用户id
+    protected $userId;
 
-    /**
-     * @var apikey
-     */
-    protected $apikey;
+    // api key
+    protected $apiKey;
 
 
     public function __construct()
     {
-        $this->userid=env('KDBIRD_USERID','');
-        $this->apikey=env('KDBIRD_APIKEY','');
+//        $this->userId = env('KDBIRD_USERID', '');
+//        $this->apiKey = env('KDBIRD_APIKEY', '');
+        $this->userId = '1564286';
+        $this->apiKey = 'e1b59974-e010-4a1e-846a-8073bd2333ea';
     }
 
+
     /**
-     * @param $requestData, json类型,提交的数据,{'OrderCode':'','ShipperCode':'','LogisticCode':''},OrderCode:订单编号,选填;ShipperCode:快递公司编号;LogisticCode:物流单号
-     * @return string
+     * 获取接口数据
+     * @param array $data
+     * @return mixed
      */
-    public function getOrderTracesByJson($requestData)
+    public function getData($data)
     {
-        if (!$this->is_not_json($requestData))
-        {
-            return '$requestData,必须是json类型';
+        $temp = array();
+        foreach ($data as $key => $value) {
+            $temp[] = sprintf('%s=%s', $key, $value);
         }
+        $queryData = implode('&', $temp);
 
-        $datas=array(
-            'EBusinessID'=>$this->userid,
-            'RequestType'=>'1002',
-            'RequestData'=>urlencode($requestData),
-            'DataType'=>'2',
-        );
+        $headerArray = ["Content-type:application/json;charset='utf-8'", "Accept:application/json"];
+        $url = 'http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx?' . $queryData;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headerArray);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($ch);
+        curl_close($ch);
 
-        $datas['DataSign']=$this->encrypt($requestData);
-        $result=$this->sendTracesPost($datas);
-
-        return $result;
+        return $res;
     }
 
 
     /**
-     * @param $requestData
-     * @return string
+     * 获取物流信息
+     * @param string $shipperCode 快递公司编码
+     * @param string $logisticCode 快递单号
+     * @return mixed
      */
-    public function getNameByJson($requestData){
-        if (!$this->is_not_json($requestData))
-        {
-            return '$requestData,必须是json类型';
-        }
+    public function getOrderTraces($shipperCode, $logisticCode)
+    {
+        $requestData = [
+            'ShipperCode' => $shipperCode,
+            'LogisticCode' => $logisticCode
+        ];
 
-        $datas = array(
-            'EBusinessID' => $this->userid,
-            'RequestType' => '2002',
-            'RequestData' => urlencode($requestData) ,
+        $data = [
+            'EBusinessID' => $this->userId,
+            'RequestType' => '1002',
+            'RequestData' => urlencode(json_encode($requestData)),
             'DataType' => '2',
-        );
-        $datas['DataSign'] = $this->encrypt($requestData);
-        $result=$this->sendTracesPost($datas);
+            'DataSign' => $this->encrypt(json_encode($requestData))
+        ];
 
-        return $result;
+        return $this->getData($data);
     }
 
 
     /**
-     * 参数为快递单号
-     * @param $LogisticCode
-     * @return string
+     * 获取物流公司名称
+     * @param string $logisticCode
+     * @return mixed
      */
-    public function getName($LogisticCode)
+    public function getName($logisticCode)
     {
-        $json="{'LogisticCode':"."'".$LogisticCode."'}";
-        return $this->getNameByJson($json);
+        $requestData = [
+            'LogisticCode' => $logisticCode
+        ];
+
+        $data = [
+            'EBusinessID' => $this->userId,
+            'RequestType' => '2002',
+            'RequestData' => urlencode(json_encode($requestData)),
+            'DataType' => '2',
+            'DataSign' => $this->encrypt(json_encode($requestData))
+        ];
+
+        return $this->getData($data);
     }
 
-
-    /**
-     * @param $shipperCode,快递公司编码
-     * @param $LogisticCode,快递单号
-     * @return string
-     */
-    public function getOrderTraces($shipperCode,$LogisticCode)
-    {
-        $json="{'OrderCode':'','ShipperCode':"."'".$shipperCode."'".",'LogisticCode':"."'".$LogisticCode."'}";
-        return $this->getOrderTracesByJson($json);
-    }
-
-
-
-    /**
-     * @param $str
-     * @return bool
-     */
-    private function is_not_json($str)
-    {
-        return is_null(json_decode($str));
-    }
-
-    /**
-     * post提交
-     * @param $datas
-     * @return string,
-     */
-    private function sendTracesPost($datas)
-    {
-        $temps = array();
-        foreach ($datas as $key => $value) {
-            $temps[] = sprintf('%s=%s', $key, $value);
-        }
-        $post_data = implode('&', $temps);
-        $url_info = parse_url("http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx");
-        if(empty($url_info['port']))
-        {
-            $url_info['port']=80;
-        }
-        $httpheader = "POST " . $url_info['path'] . " HTTP/1.0\r\n";
-        $httpheader.= "Host:" . $url_info['host'] . "\r\n";
-        $httpheader.= "Content-Type:application/x-www-form-urlencoded\r\n";
-        $httpheader.= "Content-Length:" . strlen($post_data) . "\r\n";
-        $httpheader.= "Connection:close\r\n\r\n";
-        $httpheader.= $post_data;
-        $fd = fsockopen($url_info['host'], $url_info['port']);
-        fwrite($fd, $httpheader);
-        $gets = "";
-        while (!feof($fd)) {
-            if (($header = @fgets($fd)) && ($header == "\r\n" || $header == "\n")) {
-                break;
-            }
-        }
-        while (!feof($fd)) {
-            $gets.= fread($fd, 128);
-        }
-        fclose($fd);
-
-        return $gets;
-    }
 
     /**
      * 电商sign签名
-     * @param $data
+     * @param string $data
      * @return string
      */
     private function encrypt($data)
     {
-        return urlencode(base64_encode(md5($data.$this->apikey)));
+        return urlencode(base64_encode(md5($data . $this->apiKey)));
     }
 }

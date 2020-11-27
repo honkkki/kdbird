@@ -8,38 +8,39 @@ class Logistics
 {
     /**
      * 通过单号直接获取物流信息
-     * @param $logistics_no
+     * @param string $logisticsNo
      * @return mixed
      */
-    public function getLogistics($logistics_no)
+    public function getLogistics($logisticsNo)
     {
-        $kdbird = new KdBird();
-        $name = $kdbird->getName($logistics_no);
-        $arr = json_decode($name, true);
-        $shipper = $arr['Shippers'];
+        $kdBird = new KdBird();
+        $name = $kdBird->getName($logisticsNo);
+        $nameArray = json_decode($name, true);
+        $shipper = $nameArray['Shippers'];
 
         if ($shipper == []) {
             return [];
         }
 
         if (count($shipper) == 1) {
-            $result = $kdbird->getOrderTraces($shipper[0]['ShipperCode'], $logistics_no);
-            $res_json = json_decode($result, true);
-            if ($res_json['State'] == 0) {
+            $result = $kdBird->getOrderTraces($shipper[0]['ShipperCode'], $logisticsNo);
+            $resJson = json_decode($result, true);
+            if ($resJson['State'] == 0) {
                 return [];
             }
         }
 
         foreach ($shipper as $v) {
-            $result = $kdbird->getOrderTraces($v['ShipperCode'], $logistics_no);
-            $res_json = json_decode($result, true);
+            $result = $kdBird->getOrderTraces($v['ShipperCode'], $logisticsNo);
+            $resJson = json_decode($result, true);
             //单号可能对应多个物流公司 存在空数据
-            if ($res_json['State'] == 0) {
+            if ($resJson['State'] == 0) {
                 continue;
             }
 
-            $logistics = $kdbird->getOrderTraces($v['ShipperCode'], $logistics_no);
+            $logistics = $kdBird->getOrderTraces($v['ShipperCode'], $logisticsNo);
         }
+
         return json_decode($logistics, true);
     }
 

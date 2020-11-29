@@ -18,7 +18,7 @@ class Logistics
         $nameArray = json_decode($name, true);
         $shipper = $nameArray['Shippers'];
 
-        if ($shipper == []) {
+        if (empty($shipper)) {
             return [];
         }
 

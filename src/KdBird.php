@@ -10,7 +10,7 @@ class KdBird
     // api key
     protected $apiKey;
 
-
+    // 请在env文件中添加对应的key
     public function __construct()
     {
         $this->userId = env('KDBIRD_USERID', '');
@@ -20,12 +20,13 @@ class KdBird
 
     /**
      * 获取接口数据
+     *
      * @param array $data
      * @return mixed
      */
-    public function getData($data)
+    public function getData(array $data)
     {
-        $temp = array();
+        $temp = [];
         foreach ($data as $key => $value) {
             $temp[] = sprintf('%s=%s', $key, $value);
         }
@@ -46,11 +47,12 @@ class KdBird
 
     /**
      * 获取物流信息
+     *
      * @param string $shipperCode 快递公司编码
      * @param string $logisticCode 快递单号
      * @return mixed
      */
-    public function getOrderTraces($shipperCode, $logisticCode)
+    public function getOrderTraces(string $shipperCode, string $logisticCode)
     {
         $requestData = [
             'ShipperCode' => $shipperCode,
@@ -71,10 +73,11 @@ class KdBird
 
     /**
      * 获取物流公司名称
+     *
      * @param string $logisticCode
      * @return mixed
      */
-    public function getName($logisticCode)
+    public function getName(string $logisticCode)
     {
         $requestData = [
             'LogisticCode' => $logisticCode
@@ -94,10 +97,11 @@ class KdBird
 
     /**
      * 电商sign签名
+     *
      * @param string $data
      * @return string
      */
-    private function encrypt($data)
+    private function encrypt(string $data)
     {
         return urlencode(base64_encode(md5($data . $this->apiKey)));
     }

@@ -8,10 +8,11 @@ class Logistics
 {
     /**
      * 通过单号直接获取物流信息
+     *
      * @param string $logisticsNo
      * @return mixed
      */
-    public function getLogistics($logisticsNo)
+    public function getLogistics(string $logisticsNo)
     {
         $kdBird = new KdBird();
         $name = $kdBird->getName($logisticsNo);
